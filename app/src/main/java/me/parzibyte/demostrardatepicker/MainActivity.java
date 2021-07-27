@@ -8,6 +8,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,18 +33,24 @@ public class MainActivity extends AppCompatActivity {
             ultimoDiaDelMes = diaDelMes;
 
             // Y refrescamos la fecha
-            refrescarFechaEnEditText();
+            refrescarFechaEnEditText(diaDelMes,mes,anio);
 
         }
     };
 
-    public void refrescarFechaEnEditText() {
+    public void refrescarFechaEnEditText(int diaDelMes, int mes, int anio) {
         // Formateamos la fecha pero podríamos hacer cualquier otra cosa ;)
-        String fecha = String.format(Locale.getDefault(), "%02d-%02d-%02d", ultimoAnio, ultimoMes+1, ultimoDiaDelMes);
+       // String fecha = String.format(new Locale("es"), "%02d-%02d-%02d", ultimoAnio, ultimoMes+1, ultimoDiaDelMes);
 
-        // La ponemos en el editText
+        final String fecha = twoDigits(diaDelMes) + "/" + twoDigits(mes+1) + "/" + anio;
         etFecha.setText(fecha);
     }
+
+
+
+    private String twoDigits(int n){
+        return(n<=9)?("0"+n):String.valueOf(n);
+        }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         ultimoDiaDelMes = calendario.get(Calendar.DAY_OF_MONTH);
 
         // Refrescar la fecha en el EditText
-        refrescarFechaEnEditText();
+        refrescarFechaEnEditText(ultimoDiaDelMes,ultimoMes, ultimoAnio);
 
         // Hacer que el datepicker se muestre cuando toquen el EditText; recuerda
         // que se podría invocar en el click de cualquier otro botón, o en cualquier
